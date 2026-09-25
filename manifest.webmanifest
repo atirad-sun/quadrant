@@ -1,0 +1,15 @@
+{
+  "name": "Quadrant To-Do",
+  "short_name": "Quadrant",
+  "description": "A playful Eisenhower-matrix to-do list. Works offline; your tasks stay on your device.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f3f1",
+  "theme_color": "#f26b55",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
