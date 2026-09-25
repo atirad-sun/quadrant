@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#f3f3f1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)">
 <title>Quadrant To-Do</title>
-<!-- Quadrant v2.4 (v2.3 + installable web app: manifest, offline service worker, public wording) — playful "bold outline" design. Shares its saved tasks with v1.0 (same storage key & data format). -->
+<!-- Quadrant v2.5 (v2.4 + "Stop repeating" after completing a repeating task; demo task no longer repeats) — playful "bold outline" design. Shares its saved tasks with v1.0 (same storage key & data format). -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='2' y='2' width='13' height='13' rx='4' fill='%23f26b55'/><rect x='17' y='2' width='13' height='13' rx='4' fill='%234f8ef7'/><rect x='2' y='17' width='13' height='13' rx='4' fill='%23ffc53d'/><rect x='17' y='17' width='13' height='13' rx='4' fill='%2346c2bf'/></svg>">
 <style>
 :root{
@@ -377,6 +377,8 @@ textarea.field{min-height:90px;resize:vertical;line-height:1.5}
 }
 .toast.on{transform:translate(-50%,0)}
 .toast button{background:var(--coral);color:#fff;border-radius:10px;padding:6px 12px;font-weight:600}
+.toast button.alt{background:rgba(255,255,255,.14);margin-right:-6px}
+.toast button.alt:hover{background:rgba(255,255,255,.24)}
 #confetti{position:fixed;inset:0;pointer-events:none;z-index:70}
 
 /* ---------- dark theme: tint big color areas instead of filling them ---------- */
@@ -487,7 +489,7 @@ textarea.field{min-height:90px;resize:vertical;line-height:1.5}
         <hr>
         <button class="opt" id="helpBtn"><svg class="ic sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.5M12 17h.01"/></svg>Shortcuts &amp; tips</button>
         <a class="opt" id="v1Link" href="Quadrant-v1.0.html" style="color:inherit;text-decoration:none"><svg class="ic sm" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>Switch to v1.0 design</a>
-        <div class="ver">Quadrant v2.4 · same tasks in every version</div>
+        <div class="ver">Quadrant v2.5 · same tasks in every version</div>
       </div>
       <input type="file" id="importFile" accept="application/json,.json" hidden>
     </div>
@@ -590,7 +592,7 @@ textarea.field{min-height:90px;resize:vertical;line-height:1.5}
 </aside>
 <div class="scrim" id="scrim"></div>
 
-<div class="toast" id="toast" role="status"><span id="toastMsg"></span><button id="toastAct" hidden>Undo</button></div>
+<div class="toast" id="toast" role="status"><span id="toastMsg"></span><button id="toastAct2" class="alt" hidden></button><button id="toastAct" hidden>Undo</button></div>
 <canvas id="confetti"></canvas>
 
 <script>
@@ -727,7 +729,7 @@ function seed(){
     mk('Click me to add notes, a checklist & tags', 'inbox', { tags:['tutorial'], subtasks:[{id:uid(),text:'Open this card',done:true},{id:uid(),text:'Tick this step',done:false},{id:uid(),text:'Hit ✓ Mark complete for confetti',done:false}] }),
     mk('Try quick-add: Reply to client !1 #sales @today', 'inbox', { tags:['tutorial'] }),
     mk('Finish the thing due today', 'q1', { due: today(), tags:['work'], notes:'The square on the right completes a task.' }),
-    mk('Plan next week\'s priorities', 'q2', { due: addDays(3), tags:['planning'], repeat:'1w' }),
+    mk('Plan next week\'s priorities', 'q2', { due: addDays(3), tags:['planning'] }),
   ], schemaVersion: SCHEMA };
 }
 function normTask(t){   // fill defaults & repair bad types, keeping any unknown fields
@@ -848,11 +850,16 @@ function completeTask(id, cardEl){
     const next = t.repeat ? spawnNext(t) : null;
     save(); render();
     const msg = cheer(doneOn(today()));
-    toast(next ? `${msg}  ·  🔁 next: ${dueLabel(next.due).text.replace('Deadline: ', '')}` : msg, () => {
+    const undo = () => {
       t.done = false; t.doneAt = null;
       if (next) { t.repeat = next.repeat; state.tasks = state.tasks.filter(x => x !== next); }
       save(); render();
-    });
+    };
+    if (!next) return toast(msg, undo);
+    toast(`${msg}  ·  🔁 next: ${dueLabel(next.due).text.replace('Deadline: ', '')}`, undo, 'Undo', ['Stop repeating', () => {
+      state.tasks = state.tasks.filter(x => x !== next); save(); render();
+      toast('Done for good, it won\'t come back ✋');
+    }]);
   };
   if (cardEl) {
     const r = cardEl.querySelector('.check').getBoundingClientRect();
@@ -1459,12 +1466,14 @@ $('#helpBtn').onclick = () => { closePops(); $('#help').showModal(); };
 
 /* ---------- toast ---------- */
 let toastTimer;
-function toast(msg, undo, label = 'Undo'){
+function toast(msg, undo, label = 'Undo', [label2, fn2] = []){   // optional second action, e.g. ['Stop repeating', fn]
   const t = $('#toast'); $('#toastMsg').textContent = msg;
   const b = $('#toastAct'); b.hidden = !undo; b.textContent = label;
   b.onclick = () => { t.classList.remove('on'); undo && undo(); };
+  const b2 = $('#toastAct2'); b2.hidden = !fn2; b2.textContent = label2 || '';
+  b2.onclick = () => { t.classList.remove('on'); fn2 && fn2(); };
   t.classList.add('on'); clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('on'), undo ? 5000 : 2600);
+  toastTimer = setTimeout(() => t.classList.remove('on'), fn2 ? 7000 : undo ? 5000 : 2600);
 }
 
 /* ---------- confetti ---------- */

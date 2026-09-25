@@ -1,5 +1,5 @@
 // Offline support. Pages: network first (so updates show up), cache as fallback. Other files: cache first.
-const CACHE = 'quadrant-v2.4';
+const CACHE = 'quadrant-v2.5';
 const FILES = ['./', 'index.html', 'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png'];
 
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES))); self.skipWaiting(); });
