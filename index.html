@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#f3f3f1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)">
 <title>Quadrant To-Do</title>
-<!-- Quadrant v2.6 (v2.5 + "Made by Sunatrd" credit) — made by Sunatrd (github.com/atirad-sun) — playful "bold outline" design. Shares its saved tasks with v1.0 (same storage key & data format). -->
+<!-- Quadrant v2.7 (v2.6 + long-press drag on touch screens + credit avatar) — made by Sunatrd (github.com/atirad-sun) — playful "bold outline" design. Shares its saved tasks with v1.0 (same storage key & data format). -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='2' y='2' width='13' height='13' rx='4' fill='%23f26b55'/><rect x='17' y='2' width='13' height='13' rx='4' fill='%234f8ef7'/><rect x='2' y='17' width='13' height='13' rx='4' fill='%23ffc53d'/><rect x='17' y='17' width='13' height='13' rx='4' fill='%2346c2bf'/></svg>">
 <style>
 :root{
@@ -184,6 +184,8 @@ body.is-dragging .tile-hint{opacity:1}
 .card.completing{animation:cardDone .5s ease forwards}
 @keyframes cardDone{30%{transform:scale(1.04) rotate(1deg)}100%{transform:translateY(-10px) scale(.85);opacity:0}}
 .card.completing .ctitle{text-decoration:line-through;color:var(--muted)}
+.card.pressing{transform:scale(.97);transition:transform .35s ease}
+.card{-webkit-touch-callout:none;-webkit-user-select:none}
 .card.dragging{background:transparent;border:2px dashed color-mix(in srgb,var(--ink) 40%,transparent);box-shadow:none;transform:none}
 .card.dragging > *{visibility:hidden}
 .card.ghost{position:fixed;left:0;top:0;z-index:80;pointer-events:none;transition:none;margin:0;box-shadow:0 10px 0 var(--shadow-edge),var(--lift)}
@@ -334,7 +336,8 @@ textarea.field{min-height:90px;resize:vertical;line-height:1.5}
 .dlg-foot{display:grid;grid-template-columns:auto 1fr;gap:12px;margin-top:4px}
 .help-body{line-height:1.9;color:var(--ink-2)}
 .help-body code{background:var(--soft);padding:1px 7px;border-radius:6px;font-size:12.5px}
-a.credit{color:var(--coral);font-weight:600;text-decoration:none}
+a.credit{color:var(--coral);font-weight:600;text-decoration:none;white-space:nowrap}
+.credit-av{width:20px;height:20px;border-radius:50%;vertical-align:-5px;margin:0 5px 0 2px;border:1.5px solid var(--edge);object-fit:cover}
 a.credit:hover{text-decoration:underline}
 
 /* ---------- done drawer (notification style) ---------- */
@@ -497,7 +500,7 @@ a.credit:hover{text-decoration:underline}
         <hr>
         <button class="opt" id="helpBtn"><svg class="ic sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.5M12 17h.01"/></svg>Shortcuts &amp; tips</button>
         <a class="opt" id="v1Link" href="Quadrant-v1.0.html" style="color:inherit;text-decoration:none"><svg class="ic sm" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>Switch to v1.0 design</a>
-        <div class="ver">Quadrant v2.6<br>Made with ♥ by <a class="credit" href="https://github.com/atirad-sun" target="_blank" rel="noopener">Sunatrd</a></div>
+        <div class="ver">Quadrant v2.7<br>Made with ♥ by <a class="credit" href="https://github.com/atirad-sun" target="_blank" rel="noopener"><img class="credit-av" src="data:image/jpeg;base64,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" alt="" width="20" height="20">Sunatrd</a></div>
       </div>
       <input type="file" id="importFile" accept="application/json,.json" hidden>
     </div>
@@ -581,9 +584,10 @@ a.credit:hover{text-decoration:underline}
       🔁 <code>@daily</code> <code>@weekdays</code> <code>@weekly</code> <code>@monthly</code> <code>@every-mon</code> <code>@every-2w</code> repeats the task: finish it and the next one appears<br><br>
       <b>Keys</b>: <code>N</code> add a task · <code>/</code> search · <code>V</code> switch view · <code>Esc</code> close / cancel drag<br>
       <b>On a focused card</b> (<code>Tab</code> or an arrow key to start): <code>←</code><code>↑</code><code>→</code><code>↓</code> move between cards · <code>1</code>–<code>4</code> send to Do First…Eliminate · <code>0</code> back to Inbox · <code>Shift</code>+<code>↑</code><code>↓</code> reorder · <code>Enter</code> open<br>
+      <b>Phone</b>: press and hold a card until it lifts, then drag it (near the screen edge the page scrolls) · tap a card to edit<br>
       <b>Mouse</b>: drag cards between boxes, or drop them on a colored tile at the top · click a card to edit · click a category chip to filter · click a day in the calendar to see what's due<br><br>
       💾 Tasks are saved only in <b>this browser</b> on this device. Nothing is sent to a server. Use <b>⋯ → Export backup</b> now and then, and to move your tasks to another device.<br><br>
-      <span style="color:var(--muted)">Quadrant is made with ♥ by <a class="credit" href="https://github.com/atirad-sun" target="_blank" rel="noopener">Sunatrd</a>.</span>
+      <span style="color:var(--muted)">Quadrant is made with ♥ by <a class="credit" href="https://github.com/atirad-sun" target="_blank" rel="noopener"><img class="credit-av" src="data:image/jpeg;base64,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" alt="" width="20" height="20">Sunatrd</a>.</span>
     </div>
   </div>
 </dialog>
@@ -1078,27 +1082,65 @@ function streak(){
 
 /* ---------- drag & drop (pointer based) ---------- */
 let drag = null, suppressClick = false;
+// Mouse: drag starts after moving 6px. Touch/pen: press and hold ~350ms (moving first = scrolling), then drag.
+const HOLD_MS = 350, HOLD_SLOP = 8;
 document.addEventListener('pointerdown', e => {
   const c = e.target.closest('.card');
   if (!c || e.button !== 0 || e.target.closest('button') || c.classList.contains('ghost')) return;
-  drag = { card: c, x0: e.clientX, y0: e.clientY, started: false };
+  drag = { card: c, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, started: false, touch: e.pointerType !== 'mouse' };
+  if (drag.touch) {
+    c.classList.add('pressing');
+    const d = drag;
+    d.timer = setTimeout(() => {
+      if (drag !== d) return;
+      c.classList.remove('pressing');
+      navigator.vibrate?.(12);
+      startDrag(d.x, d.y);
+    }, HOLD_MS);
+  }
 });
+function startDrag(x, y){
+  const r = drag.card.getBoundingClientRect();
+  const g = drag.card.cloneNode(true); g.classList.remove('pop-in', 'pressing'); g.classList.add('ghost');
+  g.style.width = r.width + 'px'; document.body.append(g);
+  Object.assign(drag, { started: true, ghost: g, dx: drag.x0 - r.left, dy: drag.y0 - r.top, tilt: 0, lastX: x, tile: null });
+  drag.card.style.height = r.height + 'px';
+  drag.card.classList.add('dragging'); document.body.classList.add('is-dragging');
+  dragTo(x, y);
+  if (drag.touch) edgeScroll(drag);
+}
 document.addEventListener('pointermove', e => {
   if (!drag) return;
+  drag.x = e.clientX; drag.y = e.clientY;
   if (!drag.started) {
-    if (Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) < 6) return;
-    const r = drag.card.getBoundingClientRect();
-    const g = drag.card.cloneNode(true); g.classList.remove('pop-in'); g.classList.add('ghost');
-    g.style.width = r.width + 'px'; document.body.append(g);
-    Object.assign(drag, { started: true, ghost: g, dx: drag.x0 - r.left, dy: drag.y0 - r.top, tilt: 0, lastX: e.clientX, tile: null });
-    drag.card.style.height = r.height + 'px';
-    drag.card.classList.add('dragging'); document.body.classList.add('is-dragging');
+    const moved = Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0);
+    if (drag.touch) { if (moved > HOLD_SLOP) endDrag(false); return; }   // finger moved before the hold: it's a scroll
+    if (moved < 6) return;
+    startDrag(e.clientX, e.clientY);
   }
   e.preventDefault();
-  const vx = e.clientX - drag.lastX; drag.lastX = e.clientX;
+  dragTo(e.clientX, e.clientY);
+});
+// Once a touch drag has started, stop the page from scrolling under the finger (must be a non-passive listener).
+document.addEventListener('touchmove', e => { if (drag?.started) e.preventDefault(); }, { passive: false });
+document.addEventListener('contextmenu', e => { if (drag?.touch) e.preventDefault(); });
+function edgeScroll(d){
+  // While a touch drag is held near the top/bottom of the screen, scroll the page (the stacked phone layout scrolls the page, not the lists).
+  if (drag !== d) return;
+  const edge = 70, y = drag.y;
+  const v = y < edge ? -(edge - y) / 6 : y > innerHeight - edge ? (y - innerHeight + edge) / 6 : 0;
+  if (v) {
+    const sc = document.scrollingElement, top = sc.scrollTop;   // body's overflow:auto (≤820px) propagates to the viewport
+    sc.scrollTop += v;
+    if (sc.scrollTop !== top) dragTo(drag.x, drag.y);
+  }
+  requestAnimationFrame(() => edgeScroll(d));
+}
+function dragTo(x, y){
+  const vx = x - drag.lastX; drag.lastX = x;
   drag.tilt += (Math.max(-9, Math.min(9, vx * 0.6)) + 3 - drag.tilt) * 0.2;
-  drag.ghost.style.transform = `translate(${e.clientX - drag.dx}px, ${e.clientY - drag.dy}px) rotate(${drag.tilt.toFixed(2)}deg) scale(1.03)`;
-  const hit = document.elementFromPoint(e.clientX, e.clientY);
+  drag.ghost.style.transform = `translate(${x - drag.dx}px, ${y - drag.dy}px) rotate(${drag.tilt.toFixed(2)}deg) scale(1.03)`;
+  const hit = document.elementFromPoint(x, y);
   // dropping on a colored tile
   const tile = hit?.closest('.tile');
   $$('.tile.drop').forEach(t => t !== tile && t.classList.remove('drop'));
@@ -1115,15 +1157,16 @@ document.addEventListener('pointermove', e => {
   const color = cvar(z.dataset.q);
   drag.card.style.setProperty('--c', color); drag.ghost.style.setProperty('--c', color); drag.ghost.dataset.q = z.dataset.q;
   const list = z.querySelector('.list');
-  const a = afterEl(list, e.clientY);
+  const a = afterEl(list, y);
   if (a) { if (a !== drag.card.nextSibling) list.insertBefore(drag.card, a); }
   else if (list.lastElementChild !== drag.card) list.appendChild(drag.card);
   const lr = list.getBoundingClientRect();
-  if (e.clientY > lr.bottom - 36) list.scrollTop += 9; else if (e.clientY < lr.top + 36) list.scrollTop -= 9;
-});
+  if (y > lr.bottom - 36) list.scrollTop += 9; else if (y < lr.top + 36) list.scrollTop -= 9;
+}
 function endDrag(commit){
   if (!drag) return;
   const d = drag; drag = null;
+  clearTimeout(d.timer); d.card.classList.remove('pressing');
   if (!d.started) return;
   suppressClick = true; setTimeout(() => suppressClick = false, 0);
   document.body.classList.remove('is-dragging');
