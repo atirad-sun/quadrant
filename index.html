@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="A playful Eisenhower-matrix to-do list. Free, works offline, and your tasks never leave your device.">
 <meta name="author" content="Sunatrd">
 <meta property="og:title" content="Quadrant To-Do">
@@ -13,7 +13,7 @@
 <meta name="theme-color" content="#f3f3f1" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)">
 <title>Quadrant To-Do</title>
-<!-- Quadrant v2.7 (v2.6 + long-press drag on touch screens + credit avatar) — made by Sunatrd (github.com/atirad-sun) — playful "bold outline" design. Shares its saved tasks with v1.0 (same storage key & data format). -->
+<!-- Quadrant v2.8 (v2.7 + phone layout: box tabs, + button, bottom sheets) — made by Sunatrd (github.com/atirad-sun) — playful "bold outline" design. Shares its saved tasks with v1.0 (same storage key & data format). -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='2' y='2' width='13' height='13' rx='4' fill='%23f26b55'/><rect x='17' y='2' width='13' height='13' rx='4' fill='%234f8ef7'/><rect x='2' y='17' width='13' height='13' rx='4' fill='%23ffc53d'/><rect x='17' y='17' width='13' height='13' rx='4' fill='%2346c2bf'/></svg>">
 <style>
 :root{
@@ -54,7 +54,7 @@ input,textarea{font:inherit;color:inherit}
   width:46px;height:46px;border-radius:14px;background:var(--soft);display:grid;place-items:center;position:relative;flex:none;
   transition:transform .15s,background .15s;
 }
-.icon-btn:hover{transform:translateY(-2px)}
+@media (hover:hover) and (pointer:fine){.icon-btn:hover{transform:translateY(-2px)}}
 .icon-btn:active{transform:translateY(1px)}
 .icon-btn.on{background:var(--ink);color:var(--bg)}
 .icon-btn .badge{
@@ -66,16 +66,16 @@ input,textarea{font:inherit;color:inherit}
   background:var(--coral);color:#fff;border-radius:14px;height:46px;padding:0 20px;font-weight:600;display:inline-flex;align-items:center;gap:8px;
   justify-content:center;transition:transform .15s,background .15s;
 }
-.btn-coral:hover{background:var(--coral-2);transform:translateY(-2px)}
+@media (hover:hover) and (pointer:fine){.btn-coral:hover{background:var(--coral-2);transform:translateY(-2px)}}
 .btn-coral:active{transform:translateY(1px)}
 .btn-coral:disabled{opacity:.5;transform:none;cursor:default}
 .btn-out{border:1.5px solid var(--edge);border-radius:14px;height:46px;padding:0 18px;font-weight:600;background:var(--surface);box-shadow:0 3px 0 var(--shadow-edge);transition:transform .12s,box-shadow .12s}
-.btn-out:hover{transform:translateY(-1px);box-shadow:0 4px 0 var(--shadow-edge)}
+@media (hover:hover) and (pointer:fine){.btn-out:hover{transform:translateY(-1px);box-shadow:0 4px 0 var(--shadow-edge)}}
 .btn-out:active{transform:translateY(2px);box-shadow:0 1px 0 var(--shadow-edge)}
 .chip{display:inline-flex;align-items:center;gap:6px;background:var(--soft);border-radius:9px;padding:4px 10px;font-size:12.5px;font-weight:500;color:var(--ink-2);white-space:nowrap}
 .chip i{width:7px;height:7px;border-radius:50%;background:hsl(var(--h) 70% 55%)}
 button.chip{transition:transform .12s,background .12s}
-button.chip:hover{transform:translateY(-1px);background:color-mix(in srgb,var(--ink) 12%,var(--soft))}
+@media (hover:hover) and (pointer:fine){button.chip:hover{transform:translateY(-1px);background:color-mix(in srgb,var(--ink) 12%,var(--soft))}}
 .ring{display:block}
 .ring .v{transition:stroke-dashoffset .6s cubic-bezier(.2,.9,.3,1)}
 
@@ -87,7 +87,7 @@ header{display:flex;align-items:center;gap:12px;padding-bottom:16px}
   width:54px;height:54px;border-radius:50%;background:var(--coral);display:grid;place-items:center;font-size:26px;flex:none;
   border:1.5px solid var(--edge);box-shadow:0 3px 0 var(--shadow-edge);transition:transform .3s cubic-bezier(.2,1.6,.4,1);color:#fff;font-weight:700;
 }
-.avatar:hover{transform:rotate(-10deg) scale(1.06)}
+@media (hover:hover) and (pointer:fine){.avatar:hover{transform:rotate(-10deg) scale(1.06)}}
 .hello h1{margin:0;font-size:26px;font-weight:700;letter-spacing:-.02em;display:flex;align-items:center;gap:4px;white-space:nowrap}
 .hello h1 .name{outline:0;border-radius:6px;padding:0 2px;cursor:text}
 .hello h1 .name:focus{background:var(--soft)}
@@ -108,7 +108,7 @@ header{display:flex;align-items:center;gap:12px;padding-bottom:16px}
   transition:transform .2s cubic-bezier(.2,1.4,.4,1),box-shadow .2s;position:relative;
 }
 .tile[data-q="inbox"]{background:var(--c-inbox);color:var(--on-inbox)}
-.tile:hover{transform:translateY(-3px)}
+@media (hover:hover) and (pointer:fine){.tile:hover{transform:translateY(-3px)}}
 .tile.drop{transform:scale(1.05) rotate(-1deg);box-shadow:0 0 0 3px var(--bg),0 0 0 6px var(--c)}
 .tile[data-q="inbox"].drop{box-shadow:0 0 0 3px var(--bg),0 0 0 6px var(--c-inbox)}
 .tile .ticon{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.3);display:grid;place-items:center;flex:none}
@@ -161,9 +161,9 @@ body.is-dragging .tile-hint{opacity:1}
   margin:0 14px 14px;min-height:46px;border:1.5px dashed color-mix(in srgb,var(--ink) 35%,transparent);border-radius:14px;display:flex;align-items:center;
   gap:10px;padding:0 8px 0 14px;color:var(--muted);font-size:13.5px;flex:none;transition:border-color .15s,color .15s,background .15s;
 }
-.add-tile:hover{border-color:var(--ink);color:var(--ink);background:var(--surface)}
+@media (hover:hover) and (pointer:fine){.add-tile:hover{border-color:var(--ink);color:var(--ink);background:var(--surface)}}
 .add-tile .plus{margin-left:auto;width:32px;height:32px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;transition:transform .25s}
-.add-tile:hover .plus{transform:rotate(90deg)}
+@media (hover:hover) and (pointer:fine){.add-tile:hover .plus{transform:rotate(90deg)}}
 .inline-add{margin:0 14px 14px;display:none;flex:none}
 .inline-add.on{display:block;animation:popIn .15s ease}
 .inline-add input{width:100%;padding:12px 14px;outline:0;font-size:14px;border-radius:14px}
@@ -176,7 +176,7 @@ body.is-dragging .tile-hint{opacity:1}
   padding:13px 14px 13px 16px;cursor:grab;user-select:none;flex:none;
   transition:transform .15s ease,box-shadow .15s ease;
 }
-.card:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--shadow-edge)}
+@media (hover:hover) and (pointer:fine){.card:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--shadow-edge)}}
 .card:active{transform:translateY(2px);box-shadow:0 2px 0 var(--shadow-edge)}
 .card:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
 .card.pop-in{animation:cardIn .45s cubic-bezier(.2,1.5,.4,1)}
@@ -210,7 +210,7 @@ body.is-dragging, body.is-dragging *{cursor:grabbing!important;user-select:none}
   background:var(--surface);transition:background .15s,color .15s,transform .15s;
 }
 .check .ic{width:15px;height:15px;stroke-width:2.8}
-.check:hover{background:color-mix(in srgb,var(--teal) 25%,var(--surface));color:var(--ink);transform:scale(1.08)}
+@media (hover:hover) and (pointer:fine){.check:hover{background:color-mix(in srgb,var(--teal) 25%,var(--surface));color:var(--ink);transform:scale(1.08)}}
 .card.completing .check{background:var(--teal);color:#fff;border-color:var(--teal)}
 
 /* ---------- overview column ---------- */
@@ -246,7 +246,7 @@ body.is-dragging, body.is-dragging *{cursor:grabbing!important;user-select:none}
   display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:1.5px solid var(--edge);background:var(--surface);text-align:left;
   box-shadow:0 3px 0 var(--shadow-edge);transition:transform .12s;width:100%;
 }
-.due-item:hover{transform:translateY(-1px)}
+@media (hover:hover) and (pointer:fine){.due-item:hover{transform:translateY(-1px)}}
 .due-item .bar{width:4px;align-self:stretch;border-radius:4px;background:var(--c)}
 .due-item b{font-size:13.5px;font-weight:600;display:block;overflow-wrap:anywhere}
 .due-item span{font-size:11.5px;color:var(--muted)}
@@ -302,14 +302,15 @@ dialog[open]{animation:dlg .28s cubic-bezier(.2,1.3,.4,1)}
 .boxes{display:flex;flex-wrap:wrap;gap:8px}
 .boxes button{border-radius:10px;padding:7px 13px;font-size:13px;font-weight:600;background:var(--soft);transition:transform .15s,background .15s;display:inline-flex;align-items:center;gap:7px}
 .boxes button i{width:8px;height:8px;border-radius:50%;background:var(--c)}
-.boxes button:hover{transform:translateY(-1px)}
+@media (hover:hover) and (pointer:fine){.boxes button:hover{transform:translateY(-1px)}}
 .boxes button.sel{background:var(--c);color:#18181b}
 .boxes button.sel.inb{background:var(--c-inbox);color:var(--on-inbox)}
 .boxes button.sel i{background:currentColor}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .minis{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
 .mini{background:var(--soft);border-radius:8px;padding:4px 10px;font-size:12px;font-weight:500}
-.mini:hover,.mini.sel{background:var(--ink);color:var(--bg)}
+.mini.sel{background:var(--ink);color:var(--bg)}
+@media (hover:hover) and (pointer:fine){.mini:hover{background:var(--ink);color:var(--bg)}}
 #eRep{margin-top:0}
 .cats{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .cats .chip{padding:7px 12px;font-size:13px;border-radius:10px}
@@ -399,7 +400,7 @@ a.credit:hover{text-decoration:underline}
   background:color-mix(in srgb,var(--c) 13%,var(--surface));color:var(--ink);
   box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--c) 26%,transparent);
 }
-:root[data-theme="dark"] .tile:hover{background:color-mix(in srgb,var(--c) 19%,var(--surface))}
+@media (hover:hover) and (pointer:fine){:root[data-theme="dark"] .tile:hover{background:color-mix(in srgb,var(--c) 19%,var(--surface))}}
 :root[data-theme="dark"] .tile.drop{box-shadow:inset 0 0 0 1px var(--c),0 0 0 3px var(--bg),0 0 0 5px var(--c)}
 :root[data-theme="dark"] .tile .ticon,
 :root[data-theme="dark"] .tile[data-q="inbox"] .ticon,
@@ -468,6 +469,88 @@ a.credit:hover{text-decoration:underline}
   .search{order:5;width:100%}
   .row2{grid-template-columns:1fr}
 }
+/* ---------- phone layout (≤820px): one box at a time behind tabs, + button, bottom sheets ---------- */
+.tile .tn{display:none}
+.pop .opt.m-only,.pop hr.m-only,header .icon-btn.m-only,#fab{display:none}
+#fab{
+  position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:30;width:58px;height:58px;border-radius:20px;
+  background:var(--coral);color:#fff;place-items:center;border:1.5px solid var(--edge);box-shadow:0 4px 0 var(--shadow-edge);
+  transition:transform .16s cubic-bezier(.23,1,.32,1),opacity .16s ease;
+}
+#fab:active{transform:scale(.94)}
+#fab .ic{width:26px;height:26px;stroke-width:2.4}
+.app.adding ~ #fab,body.is-dragging #fab{opacity:0;transform:scale(.85);pointer-events:none}
+@media (max-width:820px){
+  .app{padding:calc(10px + env(safe-area-inset-top)) 16px 0}
+  header{flex-wrap:nowrap;gap:6px;padding-bottom:4px}
+  .app.search-open header{flex-wrap:wrap}
+  header .rel{display:contents}
+  .spacer,.viewseg,#sortBtn,#filterBtn,#themeBtn,#ovToggle{display:none!important}
+  .icon-btn{width:40px;height:40px;border-radius:12px}
+  header .icon-btn.m-only{display:grid}
+  .hello{flex:1;gap:10px}
+  .hello > div{min-width:0}
+  .avatar{width:40px;height:40px;font-size:19px;box-shadow:0 2px 0 var(--shadow-edge)}
+  .hello h1{font-size:20px;overflow:hidden}
+  .search{display:none;order:5;width:100%;height:44px;margin-top:4px}
+  .app.search-open .search{display:flex}
+
+  /* the 5 tiles become sticky tabs */
+  .tiles{position:sticky;top:0;z-index:20;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:0 -16px;padding:6px 16px 10px;background:var(--bg)}
+  :root[data-theme] .tiles .tile{
+    flex-direction:column;justify-content:center;gap:1px;padding:7px 2px 10px;border-radius:12px;background:var(--soft);color:var(--ink-2);
+    box-shadow:none;transform:none;text-align:center;transition:background .15s ease,color .15s ease,transform .16s cubic-bezier(.23,1,.32,1);
+  }
+  .tiles .tile > div{width:100%}
+  .tiles .tile::after{content:'';position:absolute;left:38%;right:38%;bottom:4px;height:3px;border-radius:3px;background:var(--c)}
+  .tiles .tile[data-q="inbox"]::after{background:var(--c-inbox)}
+  :root[data-theme] .tiles .tile.sel{background:var(--c);color:#18181b}
+  :root[data-theme] .tiles .tile[data-q="inbox"].sel{background:var(--c-inbox);color:var(--on-inbox)}
+  :root[data-theme="dark"] .tiles .tile.sel,:root[data-theme="dark"] .tiles .tile[data-q="inbox"].sel{
+    background:color-mix(in srgb,var(--c) 20%,var(--surface));color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--c);
+  }
+  .tiles .tile.sel::after{opacity:0}
+  .tiles .tile:active{transform:scale(.96)}
+  :root[data-theme] .tiles .tile.drop{transform:scale(1.08);box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--c)}
+  .tile .ticon,.tile span[data-tc]{display:none}
+  .tile .tn{display:block;font-style:normal;font-size:17px;font-weight:700;line-height:1.15;font-variant-numeric:tabular-nums}
+  .tile b{font-size:11px;font-weight:600}
+  :root[data-theme] .tiles .tile .warn{top:5px;right:6px;width:8px;height:8px;padding:0;font-size:0;border-radius:50%;background:var(--coral);box-shadow:0 0 0 1.5px var(--surface)}
+  .app.filtering .tiles .tile:not(.hit){opacity:.45}
+  .tile.bump .tn{animation:bump .32s cubic-bezier(.23,1,.32,1)}
+  @keyframes bump{40%{transform:scale(1.3)}}
+  .tile-hint{display:none}
+
+  /* only the selected box is shown */
+  .board,.col{gap:0}
+  .zone{display:none;min-height:calc(100dvh - 180px);border-radius:20px}
+  .app[data-mtab="inbox"] .zone[data-q="inbox"],.app[data-mtab="q1"] .zone[data-q="q1"],.app[data-mtab="q2"] .zone[data-q="q2"],
+  .app[data-mtab="q3"] .zone[data-q="q3"],.app[data-mtab="q4"] .zone[data-q="q4"]{display:flex}
+  .zhead{padding:12px 16px 2px}
+  .zhead .spill,.zhead .zcount{display:none}
+  .zs{margin-left:0;font-size:12.5px}
+  .add-tile,.inline-add{display:none!important}
+  .list{padding:8px 12px 96px;gap:12px}
+
+  /* quick-add opens from the + button, pinned at the top above the keyboard */
+  .col > .quick{display:none}
+  .app.adding .col > .quick{display:flex;position:fixed;left:10px;right:10px;top:calc(10px + env(safe-area-inset-top));z-index:50;animation:quickIn .24s cubic-bezier(.23,1,.32,1)}
+  @keyframes quickIn{from{opacity:0;transform:translateY(-10px) scale(.98)}}
+  .quick .btn-coral{height:44px;width:44px}
+  #fab{display:grid}
+
+  /* iOS Safari zooms into inputs under 16px */
+  input:not([type=checkbox]),textarea{font-size:16px!important}
+
+  /* popovers become bottom sheets */
+  .pop{position:fixed;left:10px;right:10px;top:auto;bottom:calc(10px + env(safe-area-inset-bottom));z-index:50;min-width:0;max-height:72vh;border-radius:22px;padding:8px}
+  .pop.open{animation:sheetIn .3s cubic-bezier(.32,.72,0,1)}
+  @keyframes sheetIn{from{transform:translateY(calc(100% + 20px))}}
+  .pop .opt{padding:13px 12px;font-size:15px}
+  .pop .opt.m-only{display:flex}
+  .pop hr.m-only{display:block}
+  .toast{bottom:calc(92px + env(safe-area-inset-bottom))}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -490,17 +573,23 @@ a.credit:hover{text-decoration:underline}
     <div class="rel"><button class="icon-btn" id="sortBtn" title="Sort by"><svg class="ic" viewBox="0 0 24 24"><path d="M7 4v16M3.5 16.5 7 20l3.5-3.5M17 20V4M13.5 7.5 17 4l3.5 3.5"/></svg></button><div class="pop" id="sortPop"></div></div>
     <div class="rel"><button class="icon-btn" id="filterBtn" title="Filters"><svg class="ic" viewBox="0 0 24 24"><path d="M4 5h16l-6 7.5V19l-4-2v-4.5z"/></svg></button><div class="pop" id="filterPop"></div></div>
     <button class="icon-btn ov-toggle" id="ovToggle" title="Overview"><svg class="ic" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg></button>
+    <button class="icon-btn m-only" id="searchToggle" title="Search" aria-label="Search"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg></button>
     <button class="icon-btn" id="archiveBtn" title="Done archive"><svg class="ic" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg><span class="badge" id="doneBadge" hidden></span></button>
     <button class="icon-btn" id="themeBtn" title="Light / dark"></button>
     <div class="rel">
       <button class="icon-btn" id="menuBtn" title="More"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.3"/><circle cx="12" cy="12" r="1.3"/><circle cx="12" cy="19" r="1.3"/></svg></button>
       <div class="pop" id="menuPop">
+        <button class="opt m-only" id="mSort"><svg class="ic sm" viewBox="0 0 24 24"><path d="M7 4v16M3.5 16.5 7 20l3.5-3.5M17 20V4M13.5 7.5 17 4l3.5 3.5"/></svg>Sort</button>
+        <button class="opt m-only" id="mFilter"><svg class="ic sm" viewBox="0 0 24 24"><path d="M4 5h16l-6 7.5V19l-4-2v-4.5z"/></svg>Filter</button>
+        <button class="opt m-only" id="mOverview"><svg class="ic sm" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>Overview &amp; calendar</button>
+        <button class="opt m-only" id="mTheme"></button>
+        <hr class="m-only">
         <button class="opt" id="exportBtn"><svg class="ic sm" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Export backup (.json)</button>
         <button class="opt" id="importBtn"><svg class="ic sm" viewBox="0 0 24 24"><path d="M12 20V9M7 14l5-5 5 5M5 4h14"/></svg>Import backup…</button>
         <hr>
         <button class="opt" id="helpBtn"><svg class="ic sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.3 2.4c-.5.2-.8.6-.8 1.1v.5M12 17h.01"/></svg>Shortcuts &amp; tips</button>
         <a class="opt" id="v1Link" href="Quadrant-v1.0.html" style="color:inherit;text-decoration:none"><svg class="ic sm" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg>Switch to v1.0 design</a>
-        <div class="ver">Quadrant v2.7<br>Made with ♥ by <a class="credit" href="https://github.com/atirad-sun" target="_blank" rel="noopener"><img class="credit-av" src="data:image/jpeg;base64,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" alt="" width="20" height="20">Sunatrd</a></div>
+        <div class="ver">Quadrant v2.8<br>Made with ♥ by <a class="credit" href="https://github.com/atirad-sun" target="_blank" rel="noopener"><img class="credit-av" src="data:image/jpeg;base64,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" alt="" width="20" height="20">Sunatrd</a></div>
       </div>
       <input type="file" id="importFile" accept="application/json,.json" hidden>
     </div>
@@ -606,6 +695,7 @@ a.credit:hover{text-decoration:underline}
 <div class="scrim" id="scrim"></div>
 
 <div class="toast" id="toast" role="status"><span id="toastMsg"></span><button id="toastAct2" class="alt" hidden></button><button id="toastAct" hidden>Undo</button></div>
+<button id="fab" type="button" aria-label="Add a task" title="Add a task"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
 <canvas id="confetti"></canvas>
 
 <script>
@@ -737,7 +827,7 @@ const SCHEMA = 2;
 function seed(){
   const now = Date.now();
   const mk = (title, quadrant, extra = {}) => ({ id: uid(), title, quadrant, notes:'', due:null, tags:[], subtasks:[], done:false, doneAt:null, createdAt: now, repeat:null, ...extra });
-  return { theme:'light', prefs:{ sort:'manual', name:'', view:'matrix' }, tasks:[
+  return { theme:'light', prefs:{ sort:'manual', name:'', view:'matrix', mtab:'inbox' }, tasks:[
     mk('👋 Drag me into one of the 4 boxes', 'inbox', { notes:'Or drop me on one of the colored tiles at the top!' }),
     mk('Click me to add notes, a checklist & tags', 'inbox', { tags:['tutorial'], subtasks:[{id:uid(),text:'Open this card',done:true},{id:uid(),text:'Tick this step',done:false},{id:uid(),text:'Hit ✓ Mark complete for confetti',done:false}] }),
     mk('Try quick-add: Reply to client !1 #sales @today', 'inbox', { tags:['tutorial'] }),
@@ -758,7 +848,8 @@ function normTask(t){   // fill defaults & repair bad types, keeping any unknown
 }
 function migrate(s){   // runs on every load and import; safe to run on already-migrated data
   s.theme = s.theme === 'dark' ? 'dark' : 'light';
-  s.prefs = { sort:'manual', name:'', view:'matrix', ...(s.prefs || {}) };
+  s.prefs = { sort:'manual', name:'', view:'matrix', mtab:'inbox', ...(s.prefs || {}) };
+  if (!BOX[s.prefs.mtab]) s.prefs.mtab = 'inbox';
   s.tasks = s.tasks.filter(t => t && typeof t === 'object').map(normTask);
   s.schemaVersion = Math.max(SCHEMA, Number(s.schemaVersion) || 0);
   return s;
@@ -787,6 +878,7 @@ function applyTheme(){
   const dark = state.theme === 'dark';
   document.documentElement.dataset.theme = dark ? 'dark' : 'light';
   $('#themeBtn').innerHTML = svg(dark ? 'sun' : 'moon');
+  const mt = $('#mTheme'); mt.innerHTML = svg(dark ? 'sun' : 'moon', 'sm'); mt.append(dark ? 'Light mode' : 'Dark mode');
 }
 $('#themeBtn').onclick = () => { state.theme = state.theme === 'dark' ? 'light' : 'dark'; applyTheme(); save(); };
 function paintName(){
@@ -806,16 +898,17 @@ nameEl.addEventListener('blur', () => {
 
 /* ---------- build tiles & zones ---------- */
 function flashZone(key, scroll){
+  if (isPhone()) return bumpTab(key);   // the box may be on another tab: bounce its count instead
   const z = $(`.zone[data-q="${key}"]`);
   if (scroll) z.scrollIntoView({behavior:'smooth', block:'nearest'});
   z.classList.remove('flash'); void z.offsetWidth; z.classList.add('flash');
 }
 for (const [key, b] of Object.entries(BOX)) {
   const tile = el('button', 'tile'); tile.dataset.q = key; tile.style.setProperty('--c', cvar(key));
-  tile.innerHTML = `<span class="ticon">${svg(b.icon)}</span><div style="min-width:0"><b></b><span data-tc="${key}"></span></div><em class="warn" data-tw="${key}" hidden></em>`;
+  tile.innerHTML = `<span class="ticon">${svg(b.icon)}</span><div style="min-width:0"><i class="tn" data-tn="${key}"></i><b></b><span data-tc="${key}"></span></div><em class="warn" data-tw="${key}" hidden></em>`;
   tile.querySelector('b').textContent = b.name;
   tile.title = `Drop a card here, or focus a card and press ${key === 'inbox' ? 0 : key[1]}`;
-  tile.onclick = () => flashZone(key, true);
+  tile.onclick = () => isPhone() ? setTab(key) : flashZone(key, true);
   $('#tiles').append(tile);
 
   const z = $(`.zone[data-q="${key}"]`); z.style.setProperty('--c', cvar(key));
@@ -838,13 +931,12 @@ for (const [key, b] of Object.entries(BOX)) {
   });
   inp.addEventListener('blur', () => { if (!inp.value.trim()) close(); });
 }
-$('.zone[data-q="inbox"] .zs').textContent = 'Drag into a box →';
 
 /* ---------- task actions ---------- */
-function addTask(raw, forceQuad, atEnd){
+function addTask(raw, forceQuad, atEnd, fallback){
   const p = parseQuick(raw);
-  if (!p.title) return;
-  const t = { id: uid(), title: p.title, quadrant: forceQuad || p.quad || 'inbox', notes:'', due: p.due, tags: p.tags,
+  if (!p.title) return null;
+  const t = { id: uid(), title: p.title, quadrant: forceQuad || p.quad || fallback || 'inbox', notes:'', due: p.due, tags: p.tags,
               subtasks: [], done:false, doneAt:null, createdAt: Date.now(), repeat: p.repeat };
   if (atEnd) {
     let last = -1; state.tasks.forEach((x, i) => { if (!x.done && x.quadrant === t.quadrant) last = i; });
@@ -855,6 +947,7 @@ function addTask(raw, forceQuad, atEnd){
   }
   justAdded.add(t.id);
   save(); render();
+  return t;
 }
 function completeTask(id, cardEl){
   const t = find(id); if (!t) return;
@@ -972,6 +1065,8 @@ function cardFor(t){
 }
 function render(){
   const open = state.tasks.filter(t => !t.done);
+  const filtering = !!(filter.tag || filter.due || filter.q);
+  $('#app').classList.toggle('filtering', filtering);
   for (const key of Object.keys(BOX)) {
     const inBox = open.filter(t => t.quadrant === key);
     const shown = sorted(inBox.filter(visible));
@@ -981,6 +1076,8 @@ function render(){
     list.dataset.empty = hiddenN ? `No matches (${hiddenN} hidden by filters)` : BOX[key].empty;
     $(`[data-count="${key}"]`).textContent = inBox.length;
     $(`[data-tc="${key}"]`).textContent = `${inBox.length} ${inBox.length === 1 ? 'Task' : 'Tasks'}`;
+    $(`[data-tn="${key}"]`).textContent = filtering ? shown.length : inBox.length;   // phone tabs show matches while filtering
+    $(`.tile[data-q="${key}"]`).classList.toggle('hit', shown.length > 0);
     const late = inBox.filter(t => t.due && daysUntil(t.due) < 0).length;
     const w = $(`[data-tw="${key}"]`); w.hidden = !late; w.textContent = `${late} late`;
   }
@@ -1181,7 +1278,7 @@ function endDrag(commit){
       d.ghost.remove();
       const t = find(d.card.dataset.id), key = d.tile.dataset.q;
       if (t) { moveToTopOf(t, key); justAdded.add(t.id); save(); }
-      render(); d.tile.click();
+      render(); flashZone(key, true);
       toast(`Moved to ${BOX[key].name}`);
     }, 230);
     return;
@@ -1271,7 +1368,7 @@ function updatePreview(){
   const h = $('#qhint');
   if (!v) { h.innerHTML = HELP_HTML; return; }
   const p = parseQuick(v); h.replaceChildren(el('span', null, '→'));
-  const q = p.quad || 'inbox';
+  const q = p.quad || defaultBox();
   const pv = el('span', 'pv', BOX[q].name); pv.style.setProperty('--c', cvar(q)); if (q === 'inbox') { pv.style.color = 'var(--on-inbox)'; } h.append(pv);
   if (p.due) h.append(el('span', 'pv plain', '⏰ ' + dueLabel(p.due).text.replace('Deadline: ', '')));
   if (p.repeat) h.append(el('span', 'pv plain', '🔁 ' + repeatLabel(p.repeat, p.due)));
@@ -1279,27 +1376,32 @@ function updatePreview(){
   h.append(el('span', null, p.title ? '· Enter ↵' : '· type a name'));
 }
 qi.addEventListener('input', updatePreview);
-qi.addEventListener('keydown', e => { if (e.key === 'Enter') submitQuick(); if (e.key === 'Escape') { qi.value=''; updatePreview(); qi.blur(); } });
+qi.addEventListener('keydown', e => { if (e.key === 'Enter') submitQuick(); if (e.key === 'Escape') { qi.value=''; updatePreview(); qi.blur(); closeAdd(); } });
 $('#quickBtn').addEventListener('mousedown', e => e.preventDefault());
 $('#quickBtn').onclick = submitQuick;
-function submitQuick(){ if (!qi.value.trim()) return; addTask(qi.value); qi.value = ''; updatePreview(); }
+function submitQuick(){
+  if (!qi.value.trim()) return;
+  const t = addTask(qi.value, null, false, defaultBox()); qi.value = ''; updatePreview();
+  if (t && isPhone()) { if (t.quadrant !== state.prefs.mtab) bumpTab(t.quadrant); qi.focus(); }
+}
 
 let searchTimer;
 $('#searchInput').addEventListener('input', e => { clearTimeout(searchTimer); searchTimer = setTimeout(() => { filter.q = e.target.value.trim(); render(); }, 120); });
-$('#searchInput').addEventListener('keydown', e => { if (e.key === 'Escape') { e.target.value = ''; filter.q = ''; render(); e.target.blur(); } });
+$('#searchInput').addEventListener('keydown', e => { if (e.key === 'Escape') { e.target.value = ''; filter.q = ''; render(); e.target.blur(); $('#app').classList.remove('search-open'); } });
 
-function closePops(){ $$('.pop.open').forEach(p => p.classList.remove('open')); }
-function togglePop(pop, build){ const willOpen = !pop.classList.contains('open'); closePops(); if (willOpen) { build && build(); pop.classList.add('open'); } }
+function closePops(){ $$('.pop.open').forEach(p => p.classList.remove('open')); syncScrim(); }
+function togglePop(pop, build){ const willOpen = !pop.classList.contains('open'); closePops(); if (willOpen) { build && build(); pop.classList.add('open'); syncScrim(); } }
 function opt(label, sel, onclick, dot){
   const b = el('button', 'opt' + (sel ? ' sel' : ''));
   if (dot) { const d = el('span', 'sw'); d.style.background = dot; b.append(d); }
   b.append(label); b.insertAdjacentHTML('beforeend', `<span class="tick">${svg('check','sm')}</span>`);
   b.onclick = onclick; return b;
 }
-$('#sortBtn').onclick = e => { e.stopPropagation(); togglePop($('#sortPop'), () => {
+function buildSortPop(){
   const p = $('#sortPop'); p.replaceChildren(el('div', 'ph', 'Sort cards by'));
   Object.entries(SORTS).forEach(([k, s]) => p.append(opt(s.label, state.prefs.sort === k, () => { state.prefs.sort = k; save(); render(); closePops(); })));
-}); };
+}
+$('#sortBtn').onclick = e => { e.stopPropagation(); togglePop($('#sortPop'), buildSortPop); };
 $('#filterBtn').onclick = e => { e.stopPropagation(); togglePop($('#filterPop'), buildFilterPop); };
 function buildFilterPop(){
   const p = $('#filterPop'); p.replaceChildren(el('div', 'ph', 'Deadline'));
@@ -1325,8 +1427,47 @@ document.addEventListener('keydown', e => {
   if (e.key === 'n' || e.key === 'N') { e.preventDefault(); qi.focus(); }
   if (e.key === '/') { e.preventDefault(); $('#searchInput').focus(); }
   if (e.key === 'v' || e.key === 'V') { e.preventDefault(); setView(state.prefs.view === 'cols' ? 'matrix' : 'cols'); }
-  if (e.key === 'Escape') { closeDrawer(); closePops(); closeOv(); }
+  if (e.key === 'Escape') { closeDrawer(); closePops(); closeOv(); closeAdd(); }
 });
+
+/* ---------- phone layout (≤820px): box tabs, + button, sheets ---------- */
+const phoneMQ = matchMedia('(max-width:820px)');
+const isPhone = () => phoneMQ.matches;
+const defaultBox = () => isPhone() ? state.prefs.mtab : 'inbox';   // where quick-add puts a task without a !1–!4 code
+function syncScrim(){
+  const a = $('#app');
+  const on = $('#drawer').classList.contains('open') || a.classList.contains('ov-open') || (isPhone() && (!!$('.pop.open') || a.classList.contains('adding')));
+  $('#scrim').classList.toggle('on', on);
+}
+function applyTab(){
+  const k = state.prefs.mtab;
+  $('#app').dataset.mtab = k;
+  $$('.tile').forEach(t => { const on = t.dataset.q === k; t.classList.toggle('sel', on); on ? t.setAttribute('aria-current', 'true') : t.removeAttribute('aria-current'); });
+  qi.placeholder = isPhone() ? `Add to ${BOX[k].name}…` : 'Add a task…';
+  $('.zone[data-q="inbox"] .zs').textContent = isPhone() ? 'Hold a card, then drop it on a tab' : 'Drag into a box →';
+}
+function setTab(k){
+  if (state.prefs.mtab !== k) { state.prefs.mtab = k; save(); }
+  applyTab(); updatePreview();
+  // keep the header scrolled away if it already was, but start the new list at its top
+  const sc = document.scrollingElement, head = $('header'), stick = head.offsetTop + head.offsetHeight;
+  if (sc.scrollTop > stick) sc.scrollTop = stick;
+}
+function bumpTab(k){ const t = $(`.tile[data-q="${k}"]`); t.classList.remove('bump'); void t.offsetWidth; t.classList.add('bump'); }
+function openAdd(){ $('#app').classList.add('adding'); syncScrim(); qi.focus(); updatePreview(); }
+function closeAdd(){
+  const a = $('#app'); if (!a.classList.contains('adding')) return;
+  a.classList.remove('adding'); qi.value = ''; updatePreview(); qi.blur(); syncScrim();
+}
+$('#fab').onclick = openAdd;
+qi.addEventListener('blur', () => { if (isPhone() && !qi.value.trim()) setTimeout(() => { if (document.activeElement !== qi) closeAdd(); }, 150); });
+$('#searchToggle').onclick = () => { $('#app').classList.add('search-open'); $('#searchInput').focus(); };
+$('#searchInput').addEventListener('blur', e => { if (!e.target.value.trim()) $('#app').classList.remove('search-open'); });
+$('#mSort').onclick = () => togglePop($('#sortPop'), buildSortPop);
+$('#mFilter').onclick = () => togglePop($('#filterPop'), buildFilterPop);
+$('#mOverview').onclick = () => { closePops(); $('#ovToggle').onclick(); };
+$('#mTheme').onclick = () => { closePops(); $('#themeBtn').onclick(); };
+phoneMQ.addEventListener('change', () => { closeAdd(); closePops(); $('#app').classList.remove('search-open'); applyTab(); updatePreview(); });
 
 /* ---------- view toggle: Matrix (2×2) / Columns (Do First → Eliminate) ---------- */
 function applyView(animate){
@@ -1451,7 +1592,7 @@ function openDrawer(){ closeOv(); renderArchive(); $('#drawer').classList.add('o
 function closeDrawer(){ $('#drawer').classList.remove('open'); $('#scrim').classList.remove('on'); }
 $('#archiveBtn').onclick = openDrawer;
 $('#closeDrawer').onclick = closeDrawer;
-$('#scrim').onclick = () => { closeDrawer(); closeOv(); };
+$('#scrim').onclick = () => { closeDrawer(); closeOv(); closePops(); closeAdd(); };
 $('#clearArchive').onclick = () => {
   const n = state.tasks.filter(t => t.done).length; if (!n) return;
   if (!confirm(`Permanently delete all ${n} finished tasks from the archive? Your stats will reset too.`)) return;
@@ -1510,8 +1651,8 @@ $('#importFile').onchange = async e => {
     if (!confirm(`Replace your current board with this backup (${data.tasks.length} tasks)?`)) return;
     const prev = state;
     state = migrate({ theme: data.theme, prefs: data.prefs, tasks: data.tasks, schemaVersion: data.schemaVersion });
-    applyView(false); applyTheme(); paintName(); save(); render();
-    toast('Backup imported ✅', () => { state = prev; applyTheme(); paintName(); save(); render(); });
+    applyView(false); applyTheme(); paintName(); applyTab(); save(); render();
+    toast('Backup imported ✅', () => { state = prev; applyView(false); applyTheme(); paintName(); applyTab(); save(); render(); });
   } catch { toast('⚠️ That file isn\'t a Quadrant backup'); }
 };
 $('#helpBtn').onclick = () => { closePops(); $('#help').showModal(); };
@@ -1562,7 +1703,7 @@ function greet(){
 }
 let lastDay = today();
 setInterval(() => { greet(); if (today() !== lastDay) { if (selDay === lastDay) selDay = today(); lastDay = today(); render(); } }, 60000);
-addEventListener('storage', e => { if (e.key === KEY) { state = load(); applyView(false); applyTheme(); paintName(); render(); } });
+addEventListener('storage', e => { if (e.key === KEY) { state = load(); applyView(false); applyTheme(); paintName(); applyTab(); render(); } });
 
 /* ---------- web app: install & offline (only when served over http/https, never from file://) ---------- */
 if (location.protocol.startsWith('http')) {
@@ -1572,7 +1713,7 @@ if (location.protocol.startsWith('http')) {
   if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 }
 
-applyView(false); applyTheme(); paintName(); greet(); updatePreview(); render();
+applyView(false); applyTheme(); paintName(); greet(); applyTab(); updatePreview(); render();
 })();
 </script>
 </body>
